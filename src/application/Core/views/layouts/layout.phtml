@@ -73,7 +73,9 @@
 
         <!-- build:js scripts/main.min.js -->
         <script src="/scripts/main.js"></script>
+        
         <!-- endbuild -->
+        <?php $this->inlineScript()->prependFile('/assets/jquery/dist/jquery.min.js', 'text/javascript')?>
 		<?= $this->inlineScript() . PHP_EOL?>
         <!-- Built with love using Web Starter Kit -->
     </body>
