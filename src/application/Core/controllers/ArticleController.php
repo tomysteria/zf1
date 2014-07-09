@@ -7,18 +7,20 @@
  */
 class Core_ArticleController extends Zend_Controller_Action
 {
+	private $blogSvc;
+	
+	public function init()
+	{
+		$this->blogSvc = new Core_Service_Blog();
+	}
+	
 	public function indexAction()
 	{
-		$articles = array(
-			array('article_id' => 1, 'article_title' => 'titre1', 'article_content' => 'blablabla'),
-			array('article_id' => 2, 'article_title' => 'titre2', 'article_content' => 'blablabla2'),
-		);
-		
-		$this->view->articles = $articles;
+		$this->view->articles = $this->blogSvc->fetchLastArticles(2);
 	}
 	
 	public function viewAction()
 	{
-	
+		$this->view->article = $this->blogSvc->fetchArticleById(1);
 	}
 }
