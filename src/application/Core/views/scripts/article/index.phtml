@@ -1,0 +1,6 @@
+<h1>Articles</h1>
+
+<?php foreach ($this->articles as $article) :?>
+<h2><?= $article['article_title']?></h2>
+<p><?= $article['article_content']?></p>
+<?php endforeach;?>
