@@ -2,15 +2,6 @@
 
 class Core_Service_Blog
 {
-	private $dbAdapter;
-	
-	public function __construct()
-	{
-		$this->dbAdapter = Zend_Controller_Front::getInstance()
-			 ->getParam('bootstrap')
-			 ->getResource('multidb')
-			 ->getDb('db1');
-	}
 	/**
 	 * Fetches last articles (ordered by date)
 	 * @param number $count number of fetched articles
@@ -23,24 +14,9 @@ class Core_Service_Blog
 			throw new InvalidArgumentException('count doit être un entier supérieur à 1');
 		}
 
-		//$sql = "SELECT * FROM article ORDER BY article_id DESC  LIMIT $count";
-		
-		$sql = $this->dbAdapter
-					->select()
-					->from('article')
-					->order('article_id DESC')
-					->limit($count);
-		
-		$result = $this->dbAdapter->fetchAll($sql);
+		$mapper = new Core_Model_Mapper_Article;
+		$articles = $mapper->fetchAll(null,'article_id DESC', $count);
 
-		$articles = array();	
-		foreach ($result as $row) {
-			$article = new Core_Model_Article;
-			$article->setId($row['article_id'])
-					->setTitle($row['article_title'])
-					->setContent($row['article_content']);
-			$articles[] = $article;
-		}
 		return $articles;
 		
 	}
@@ -56,28 +32,10 @@ class Core_Service_Blog
 			throw new InvalidArgumentException('articleId doit être un entier supérieur à 1');
 		}
 		
-		$sql = "SELECT * FROM article AS a,categorie AS c 
-				WHERE a.article_id = ? 
-				AND a.categorie_id = c.categorie_id";
+		$mapper = new Core_Model_Mapper_Article;
+		$article = $mapper->find($articleId);
 		
-		$result = $this->dbAdapter->fetchAll($sql, $articleId);
-		
-		if (0 === count($result)) {
-			return false;
-		}
-		$categorie = new Core_Model_Categorie;
-		$categorie->setId($result[0]['categorie_id'])
-				  ->setNom($result[0]['categorie_nom']);
-		
-		$article = new Core_Model_Article;
-		$article->setId($articleId)
-				->setTitle($result[0]['article_title'])
-				->setContent($result[0]['article_content']);
-		
-		$categorie->addArticle($article);
-		
-		$article->setCategorie($categorie);
-
 		return $article;
+		
 	}
 }
