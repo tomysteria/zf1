@@ -26,6 +26,30 @@ class Core_Model_Mapper_Article
 		return $articles;
 	}
 	
+	public function delete($id)
+	{
+		$row = $this->dbTable->find($id)->current();
+		if (!$row instanceof Zend_Db_Table_Row_Abstract) {
+			throw new Zend_Db_Table_Row_Exception('Impossible de supprimer l\'élément #' . $id);
+		}
+		return (bool) $row->delete();
+	}
+	
+	public function save(Core_Model_Article $article)
+	{
+		$origin = $this->dbTable->find($article->getId())->current();
+		$row = $this->objectToRow($article);
+		if ($origin instanceof Zend_Db_Table_Row_Abstract) {
+			// Update
+			$where = array('article_id = ?' => $article->getId());
+			$this->dbTable->update($row, $where);
+		} else {
+			// Insert
+			unset($row['article_id']);
+			$this->dbTable->insert($row);
+		}
+	}
+	
 	public function rowToObject(Zend_Db_Table_Row $row)
 	{
 		$article = new Core_Model_Article;
@@ -40,5 +64,15 @@ class Core_Model_Mapper_Article
 		$categorie->addArticle($article);
 		$article->setCategorie($categorie);
 		return $article;
+	}
+	
+	public function objectToRow(Core_Model_Article $article)
+	{
+		return array(
+			'article_id' => $article->getId(),
+			'article_title' => $article->getTitle(),
+			'article_content' => $article->getContent(),
+			'categorie_id' => $article->getCategorie()->getId()
+		);
 	}
 }
