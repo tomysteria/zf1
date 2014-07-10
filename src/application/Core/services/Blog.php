@@ -61,15 +61,23 @@ class Core_Service_Blog
 				AND a.categorie_id = c.categorie_id";
 		
 		$result = $this->dbAdapter->fetchAll($sql, $articleId);
-		print_r($result); exit;
+		
 		if (0 === count($result)) {
 			return false;
 		}
+		$categorie = new Core_Model_Categorie;
+		$categorie->setId($result[0]['categorie_id'])
+				  ->setNom($result[0]['categorie_nom']);
 		
 		$article = new Core_Model_Article;
 		$article->setId($articleId)
 				->setTitle($result[0]['article_title'])
 				->setContent($result[0]['article_content']);
+		
+		$categorie->addArticle($article);
+		
+		$article->setCategorie($categorie);
+
 		return $article;
 	}
 }
