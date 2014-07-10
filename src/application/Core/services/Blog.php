@@ -2,24 +2,46 @@
 
 class Core_Service_Blog
 {
+	private $dbAdapter;
+	
+	public function __construct()
+	{
+		$this->dbAdapter = Zend_Controller_Front::getInstance()
+			 ->getParam('bootstrap')
+			 ->getResource('multidb')
+			 ->getDb('db1');
+	}
 	/**
 	 * Fetches last articles (ordered by date)
 	 * @param number $count number of fetched articles
 	 */
 	public function fetchLastArticles($count = 5)
 	{
-		$article1 = new Core_Model_Article;
-		$article1->setId(1)
-				->setTitle('titre1')
-				->setContent('blablabla');
+		$count = (int) $count;
 		
-		$article2 = new Core_Model_Article;
-		$article2->setId(2)
-				->setTitle('titre2')
-				->setContent('blablabla');
-		
-		return array($article1,$article2);
+		if (0 === $count) {
+			throw new InvalidArgumentException('count doit être un entier supérieur à 1');
+		}
 
+		//$sql = "SELECT * FROM article ORDER BY article_id DESC  LIMIT $count";
+		
+		$sql = $this->dbAdapter
+					->select()
+					->from('article')
+					->order('article_id DESC')
+					->limit($count);
+		
+		$result = $this->dbAdapter->fetchAll($sql);
+
+		$articles = array();	
+		foreach ($result as $row) {
+			$article = new Core_Model_Article;
+			$article->setId($row['article_id'])
+					->setTitle($row['article_title'])
+					->setContent($row['article_content']);
+			$articles[] = $article;
+		}
+		return $articles;
 		
 	}
 	
@@ -34,13 +56,8 @@ class Core_Service_Blog
 			throw new InvalidArgumentException('articleId doit être un entier supérieur à 1');
 		}
 		
-		$dbAdapter = Zend_Controller_Front::getInstance()
-					->getParam('bootstrap')
-					->getResource('multidb')
-					->getDb('db1');
-		
 		$sql = "SELECT * FROM article WHERE article_id = ?";
-		$result = $dbAdapter->fetchAll($sql, $articleId);
+		$result = $this->dbAdapter->fetchAll($sql, $articleId);
 		
 		if (0 === count($result)) {
 			return false;
