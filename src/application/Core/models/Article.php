@@ -16,6 +16,11 @@ class Core_Model_Article
 	private $content;
 	
 	/**
+	 * @var Core_Model_Categorie
+	 */
+	private $categorie;
+	
+	/**
 	 * @return the $id
 	 */
 	public function getId() {
@@ -59,5 +64,20 @@ class Core_Model_Article
 		$this->content = $content;
 		return $this;
 	}
+	/**
+	 * @return the $categorie
+	 */
+	public function getCategorie() {
+		return $this->categorie;
+	}
+
+	/**
+	 * @param Core_Model_Categorie $categorie
+	 */
+	public function setCategorie(Core_Model_Categorie $categorie) {
+		$this->categorie = $categorie;
+		return $this;
+	}
+
 
 }

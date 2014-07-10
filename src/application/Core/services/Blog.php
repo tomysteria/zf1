@@ -56,9 +56,12 @@ class Core_Service_Blog
 			throw new InvalidArgumentException('articleId doit être un entier supérieur à 1');
 		}
 		
-		$sql = "SELECT * FROM article WHERE article_id = ?";
-		$result = $this->dbAdapter->fetchAll($sql, $articleId);
+		$sql = "SELECT * FROM article AS a,categorie AS c 
+				WHERE a.article_id = ? 
+				AND a.categorie_id = c.categorie_id";
 		
+		$result = $this->dbAdapter->fetchAll($sql, $articleId);
+		print_r($result); exit;
 		if (0 === count($result)) {
 			return false;
 		}
