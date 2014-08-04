@@ -21,6 +21,11 @@ class Core_Model_Article
 	private $categorie;
 	
 	/**
+	 * @var Core_Model_Author
+	 */
+	private $author = null;
+	
+	/**
 	 * @return the $id
 	 */
 	public function getId() {
@@ -79,5 +84,21 @@ class Core_Model_Article
 		return $this;
 	}
 
+	/**
+	 * @return the $author
+	 */
+	public function getAuthor()
+	{
+	    return $this->author;
+	}
+	
+	/**
+	 * @param Core_Model_Author $author
+	 */
+	public function setAuthor(Core_Model_Author $author)
+	{
+	    $this->author = $author;
+	    return $this;
+	}
 
 }

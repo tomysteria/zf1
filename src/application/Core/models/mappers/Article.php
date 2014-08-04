@@ -9,6 +9,7 @@ class Core_Model_Mapper_Article
 	const COL_TITLE = 'article_title';
 	const COL_CONTENT = 'article_content';
 	const COL_CATEGORIE_ID = 'categorie_id';
+	const COL_AUTHOR_ID = 'author_id';
 	
 	public function __construct()
 	{
@@ -58,6 +59,7 @@ class Core_Model_Mapper_Article
 	
 	public function rowToObject(Zend_Db_Table_Row $row)
 	{
+	
 		$article = new Core_Model_Article;
 		$article->setId($row[self::COL_ID])
 				->setTitle($row[self::COL_TITLE])
@@ -67,8 +69,20 @@ class Core_Model_Mapper_Article
 		$mapperCategorie = new Core_Model_Mapper_Categorie();
 		$categorie = $mapperCategorie->rowToObject($rowCategorie);
 		
+		$rowAuthor = $row->findParentRow('Core_Model_DbTable_Author');
+	    $mapperAuthor = new Core_Model_Mapper_Author();
+		if($rowAuthor !== null){
+		  $author = $mapperAuthor->rowToObject($rowAuthor);
+		} else {
+		  $author = $mapperAuthor->getAnonymeEntity('Inconnu');
+		}
+		
 		$categorie->addArticle($article);
+		$author->addArticle($article);
+		
 		$article->setCategorie($categorie);
+		$article->setAuthor($author);
+		
 		return $article;
 	}
 	

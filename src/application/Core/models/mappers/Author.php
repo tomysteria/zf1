@@ -21,4 +21,11 @@ class Core_Model_Mapper_Author{
         
         return $author;
     }
+    
+    public function getAnonymeEntity($name = "Anonyme"){
+        $author = new Core_Model_Author;
+        $author->setName($name)
+               ->setEmail(NULL);
+        return $author;
+    }
 }
