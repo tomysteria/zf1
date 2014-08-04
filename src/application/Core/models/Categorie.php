@@ -17,6 +17,12 @@ class Core_Model_Categorie
 	private $articles = array();
 	
 	/**
+	 * Objet Categorie du parent
+	 * @var Core_Model_Categorie
+	 */
+    private $parent;
+	
+	/**
 	 * @return the $id
 	 */
 	public function getId() {
@@ -65,6 +71,22 @@ class Core_Model_Categorie
 		return $this;
 	}
 	
-	
+	/**
+     * @return the $parent
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+	/**
+     * @param Core_Model_Categorie $parent
+     */
+    public function setParent(Core_Model_Categorie $parent = null)
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
 
 }
