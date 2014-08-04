@@ -20,7 +20,6 @@ class Core_ArticleController extends Zend_Controller_Action
 		
 		$newArticle = new Core_Model_Article();
 		$categorie = new Core_Model_Categorie();
-		
 		$categorie->setId(1);
 		
 		$author = new Core_Model_Author();

@@ -11,7 +11,7 @@ $string = null;
 foreach (array_reverse($categorieArray) as $cat) {
     $string .= $cat . ' >> ';
 }
-echo trim($string, ' >> ')
+echo trim($string, ' >> ');
 ?>
 </strong></h4>
 <h4>Auteur :<?= $this->article->getAuthor()->getName();?></h4>
