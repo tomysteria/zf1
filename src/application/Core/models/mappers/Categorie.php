@@ -6,6 +6,7 @@ class Core_Model_Mapper_Categorie
 	
 	const COL_ID = 'categorie_id';
 	const COL_NAME = 'categorie_name';
+	const COL_PARENT_ID = 'categorie_parent_id';
 	
 	public function __construct()
 	{
@@ -17,6 +18,11 @@ class Core_Model_Mapper_Categorie
 		$categorie = new Core_Model_Categorie;
 		$categorie->setId($row[self::COL_ID])
 				  ->setNom($row[self::COL_NAME]);
+		
+		$parentCategorieRow = $row->findParentRow('Core_Model_DbTable_Categorie');
+		if($parentCategorieRow !== null){
+		    $categorie->setParent($this->rowToObject($parentCategorieRow));
+		}
 		
 		return $categorie;
 	}

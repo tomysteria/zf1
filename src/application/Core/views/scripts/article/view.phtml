@@ -1,4 +1,18 @@
 <h1><?= $this->article->getTitle()?></h1>
-<h4>Dans la catégorie <strong><?= $this->article->getCategorie()->getNom() ?></strong></h4>
+<h4>Dans la catégorie <strong>
+<?php 
+$categorieArray[] = $this->article->getCategorie()->getNom(); 
+$categorie = $this->article->getCategorie();
+while($categorie->getParent() !== null) {
+    $categorieArray[] = $categorie->getParent()->getNom();
+    $categorie = $categorie->getParent();
+}
+$string = null;
+foreach (array_reverse($categorieArray) as $cat) {
+    $string .= $cat . ' >> ';
+}
+echo trim($string, ' >> ')
+?>
+</strong></h4>
 <h4>Auteur :<?= $this->article->getAuthor()->getName();?></h4>
 <p><?= $this->article->getContent()?></p>
