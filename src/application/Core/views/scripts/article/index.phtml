@@ -2,7 +2,7 @@
 
 <?php foreach ($this->articles as $article) :?>
 <h2><a href="<?= $this->url(array('id' => $article->getId()), 'coreArticleView') ?>">
-<?= $article->getTitle()?>
+<?= $article->getTitle()?><small><?= $article->getAuthor()->getName()?></small>
 </a></h2>
 <p><?= $article->getContent()?></p>
 <?php endforeach;?>

@@ -88,11 +88,19 @@ class Core_Model_Mapper_Article
 	
 	public function objectToRow(Core_Model_Article $article)
 	{
-		return array(
+		$data = array(
 			self::COL_ID => $article->getId(),
 			self::COL_TITLE => $article->getTitle(),
 			self::COL_CONTENT => $article->getContent(),
 			self::COL_CATEGORIE_ID => $article->getCategorie()->getId()
 		);
+		
+		if ($article->getAuthor() !== null) {
+		    $data[self::COL_AUTHOR_ID] = $article->getAuthor()->getId();
+		} else {
+		    $data[self::COL_AUTHOR_ID] = Zend_Db::NULL_TO_STRING;
+		}
+		
+		return $data;
 	}
 }
