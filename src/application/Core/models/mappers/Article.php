@@ -1,8 +1,8 @@
 <?php 
 
-class Core_Model_Mapper_Article 
+class Core_Model_Mapper_Article extends Core_Model_Mapper_MapperAbstract 
 {
-	private $dbTable;
+	protected $dbTable;
 	
 	const TABLE = 'article';
 	const COL_ID = 'article_id';
@@ -23,16 +23,7 @@ class Core_Model_Mapper_Article
 		return $article;
 	}
 	
-	public function fetchAll($where=null, $order=null, $count=null, $offset=null) 
-	{
-		$rowset = $this->dbTable->fetchAll($where,$order, $count, $offset);
-		$articles = array(); 
-		foreach ($rowset as $row) {
-			$articles[] = $this->rowToObject($row);
-		}
-		return $articles;
-	}
-	
+
 	public function delete($id)
 	{
 		$row = $this->dbTable->find($id)->current();

@@ -1,8 +1,8 @@
 <?php 
 
-class Core_Model_Mapper_Categorie
+class Core_Model_Mapper_Categorie extends Core_Model_Mapper_MapperAbstract
 {
-	private $dbTable;
+	protected $dbTable;
 	
 	const COL_ID = 'categorie_id';
 	const COL_NAME = 'categorie_name';
@@ -12,6 +12,7 @@ class Core_Model_Mapper_Categorie
 	{
 		$this->dbTable = new Core_Model_DbTable_Categorie();
 	}
+	
 	
 	public function rowToObject(Zend_Db_Table_Row $row)
 	{

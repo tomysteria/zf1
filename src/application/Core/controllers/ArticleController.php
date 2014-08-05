@@ -49,4 +49,9 @@ class Core_ArticleController extends Zend_Controller_Action
 		$this->view->article = $article;
 	}
 	
+	public function categoriesAction()
+	{
+		$this->view->categories = $this->blogSvc->fetchCategories();
+	}
+	
 }
