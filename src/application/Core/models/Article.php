@@ -1,6 +1,6 @@
 <?php 
 
-class Core_Model_Article
+class Core_Model_Article implements Core_Model_Interface
 {
 	/**
 	 * @var number

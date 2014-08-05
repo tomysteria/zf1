@@ -1,8 +1,7 @@
 <h1>Categories</h1>
 
-<?php foreach ($this->articles as $article) :?>
-<h2><a href="<?= $this->url(array('id' => $article->getId()), 'coreArticleView') ?>">
-<?= $article->getTitle()?><small><?= $article->getAuthor()->getName()?></small>
-</a></h2>
-<p><?= $article->getContent()?></p>
+<?php foreach ($this->categories as $category) :?>
+<h2>
+<?= $category->getNom()?> <small>(<?= count($category->getArticles())?>)</small>
+</h2>
 <?php endforeach;?>

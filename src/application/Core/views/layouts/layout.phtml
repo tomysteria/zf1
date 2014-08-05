@@ -72,6 +72,14 @@
         <?= $this->navigation()->menu()->setUlClass('main-nav') ?>
 		</nav>
         <main>
+        	<div class="breadcrumb">
+        	Vous êtes ici : <?= $this->navigation()
+        	->breadcrumbs()
+        	->setMinDepth(0)
+        	->setRenderInvisible(true)
+        	->setSeparator(' &#8658; ')
+        	?> 
+        	</div>
             <?= $this->layout()->content ?>
         </main>
 

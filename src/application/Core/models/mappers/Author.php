@@ -1,16 +1,10 @@
 <?php
-class Core_Model_Mapper_Author{
-    
-    private $dbTable;
+class Core_Model_Mapper_Author
+{
     
     const COL_ID = 'author_id';
     const COL_NAME = 'author_name';
     const COL_EMAIL = 'author_email';
-    
-    public function __construct()
-    {
-        $this->dbTable = new Core_Model_DbTable_Author();
-    }
     
     public function rowToObject(Zend_Db_Table_Row $row)
     {
@@ -20,6 +14,16 @@ class Core_Model_Mapper_Author{
                ->setEmail($row[self::COL_EMAIL]);
         
         return $author;
+    }
+    
+    public function objectToRow(Core_Model_Interface $author)
+    {
+    	$data = array(
+    		self::COL_ID => $author->getId(),
+    		self::COL_NAME => $author->getName(),
+    		self::COL_EMAIL => $author->getEmail(),
+    	);
+    	return $data;
     }
     
     public function getAnonymeEntity($name = "Anonyme"){

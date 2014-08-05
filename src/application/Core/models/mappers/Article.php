@@ -2,8 +2,6 @@
 
 class Core_Model_Mapper_Article extends Core_Model_Mapper_MapperAbstract 
 {
-	protected $dbTable;
-	
 	const TABLE = 'article';
 	const COL_ID = 'article_id';
 	const COL_TITLE = 'article_title';
@@ -11,42 +9,7 @@ class Core_Model_Mapper_Article extends Core_Model_Mapper_MapperAbstract
 	const COL_CATEGORIE_ID = 'categorie_id';
 	const COL_AUTHOR_ID = 'author_id';
 	
-	public function __construct()
-	{
-		$this->dbTable = new Core_Model_DbTable_Article();
-	}
-	
-	public function find($id) 
-	{
-		$rowArticle = $this->dbTable->find($id)->current();
-		$article = $this->rowToObject($rowArticle);
-		return $article;
-	}
-	
-
-	public function delete($id)
-	{
-		$row = $this->dbTable->find($id)->current();
-		if (!$row instanceof Zend_Db_Table_Row_Abstract) {
-			throw new Zend_Db_Table_Row_Exception('Impossible de supprimer l\'élément #' . $id);
-		}
-		return (bool) $row->delete();
-	}
-	
-	public function save(Core_Model_Article $article)
-	{
-		$origin = $this->dbTable->find($article->getId())->current();
-		$row = $this->objectToRow($article);
-		if ($origin instanceof Zend_Db_Table_Row_Abstract) {
-			// Update
-			$where = array(self::COL_ID . ' = ?' => $article->getId());
-			$this->dbTable->update($row, $where);
-		} else {
-			// Insert
-			unset($row[self::COL_ID]);
-			$this->dbTable->insert($row);
-		}
-	}
+// 	protected $dbTableClassname = 'Core_Model_DbTable_Article';
 	
 	public function rowToObject(Zend_Db_Table_Row $row)
 	{
@@ -77,7 +40,7 @@ class Core_Model_Mapper_Article extends Core_Model_Mapper_MapperAbstract
 		return $article;
 	}
 	
-	public function objectToRow(Core_Model_Article $article)
+	public function objectToRow(Core_Model_Interface $article)
 	{
 		$data = array(
 			self::COL_ID => $article->getId(),
