@@ -1,4 +1,4 @@
-<ul class="nav">
+<ul class="nav navbar-nav">
 <?php 
 foreach ($this->container as $page) {
     $active = $page->isActive() ? 'active' : '';
@@ -32,11 +32,8 @@ foreach ($this->container as $page) {
     }
 ?>
 </li>
-<li class="hidden-desktop">
-<a href="<?php echo $this->url(array(), 'signout')?>" ><?php echo $this->translate('core_login_signout')?></a>
-</li>
 </ul>
 <?php 
 $this->inlineScript()->appendScript(
-  '$(".navbar .dropdown-toggle").append(" <b class=\"caret\"></b>");' . PHP_EOL
+  '$(".navbar .dropdown-toggle").append(" <span class=\"caret\"></span>");' . PHP_EOL
 );
