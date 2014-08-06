@@ -8,6 +8,16 @@ class Core_Service_Blog
 		$mapper = new Core_Model_Mapper_Categorie();
 		return $mapper->fetchAll();
 	}
+	
+	public function findCategorie($id)
+	{
+		if (0 === (int) $id) {
+			throw new InvalidArgumentException('id doit être un entier supérieur à 1');
+		}
+		
+		$mapper = new Core_Model_Mapper_Categorie();
+		return $mapper->find($id);
+	}
 	/**
 	 * Fetches last articles (ordered by date)
 	 * @param number $count number of fetched articles
@@ -42,6 +52,21 @@ class Core_Service_Blog
 		$article = $mapper->find($articleId);
 		
 		return $article;
+		
+	}
+	
+	public function fetchArticlesByCategory($id)
+	{
+		if (0 === (int) $id) {
+			throw new InvalidArgumentException('id doit être un entier supérieur à 1');
+		}
+		
+		$mapper = new Core_Model_Mapper_Article;
+		$where = array(Core_Model_Mapper_Article::COL_CATEGORIE_ID . ' = ?' => $id);
+		$articles = $mapper->fetchAll($where,'article_id DESC');
+		
+		return $articles;
+		
 		
 	}
 	

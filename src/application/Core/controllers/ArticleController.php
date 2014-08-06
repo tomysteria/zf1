@@ -78,7 +78,9 @@ class Core_ArticleController extends Zend_Controller_Action
 	
 	public function categorieviewAction()
 	{
-		
+		$categorieId = $this->getRequest()->getParam('id');
+		$this->view->articles = $this->blogSvc->fetchArticlesByCategory($categorieId);
+		$this->view->categorie = $this->blogSvc->findCategorie($categorieId);
 	}
 	
 }
