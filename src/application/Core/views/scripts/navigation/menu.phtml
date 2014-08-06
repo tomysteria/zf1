@@ -1,0 +1,42 @@
+<ul class="nav">
+<?php 
+foreach ($this->container as $page) {
+    $active = $page->isActive() ? 'active' : '';
+        if (0 < count($page)) {
+            if ($page->isVisible() && $this->navigation()->accept($page)) {
+                $sub = '';
+                foreach($page as $subElement) {
+                    if ($subElement->isVisible() && $this->navigation()->accept($subElement)) {
+                        $sub .= '<li>' . $this->navigation()->menu()->htmlify($subElement) . '</li>' . PHP_EOL;
+                        $active |= $subElement->isActive() ? true : false;
+                        if(0 < count($subElement)) {
+                            foreach($subElement as $superSub) {
+                                $active |= $superSub->isActive() ? true : false;
+                            }
+                        }
+                    }
+                } 
+                $active = $active ? 'active' : '';
+                if('' != $sub) {
+                    echo '<li class="dropdown ' . $active . '" >'. PHP_EOL . $this->navigation()->menu()->htmlify($page), PHP_EOL;
+                    echo '<ul class="dropdown-menu">', PHP_EOL;
+                    echo '    ' . $sub;
+                    echo '</ul>', PHP_EOL; 
+                }
+            }
+        } else {
+            if ($page->isVisible() && $this->navigation()->accept($page)) {
+                echo '<li class="' . $active . '">' . $this->navigation()->menu()->htmlify($page), PHP_EOL;
+            }
+        }
+    }
+?>
+</li>
+<li class="hidden-desktop">
+<a href="<?php echo $this->url(array(), 'signout')?>" ><?php echo $this->translate('core_login_signout')?></a>
+</li>
+</ul>
+<?php 
+$this->inlineScript()->appendScript(
+  '$(".navbar .dropdown-toggle").append(" <b class=\"caret\"></b>");' . PHP_EOL
+);

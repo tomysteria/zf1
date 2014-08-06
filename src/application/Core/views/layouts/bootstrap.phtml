@@ -45,7 +45,10 @@
           <a class="navbar-brand" href="#">Bootstrap theme</a>
         </div>
         <div class="navbar-collapse collapse">
-          <?= $this->navigation()->menu()->setUlClass('nav navbar-nav') ?>	
+          <?= $this->navigation()
+        ->menu()
+        ->setUlClass('nav')
+        ->setPartial(array('navigation/menu.phtml', 'Core')) ?>
         </div><!--/.nav-collapse -->
       </div>
     </div>
