@@ -81,6 +81,18 @@ class Core_ArticleController extends Zend_Controller_Action
 		$categorieId = $this->getRequest()->getParam('id');
 		$this->view->articles = $this->blogSvc->fetchArticlesByCategory($categorieId);
 		$this->view->categorie = $this->blogSvc->findCategorie($categorieId);
-	}
+	}	
 	
+	public function addarticleAction()
+	{
+		$form = new Core_Form_AddArticle();
+		$form->setAction('')
+			 ->setMethod(Zend_Form::METHOD_POST);
+		
+		// SI HTTP POST, réception du formulaire
+		if ($this->getRequest()->isPost()) {
+			
+		}
+		$this->view->form = $form;
+	}
 }
