@@ -1,5 +1,5 @@
 <?php
-class Core_Model_Mapper_Author
+class Core_Model_Mapper_Author extends Core_Model_Mapper_MapperAbstract
 {
     
     const COL_ID = 'author_id';

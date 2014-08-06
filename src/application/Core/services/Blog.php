@@ -3,10 +3,36 @@
 class Core_Service_Blog
 {
 	
-	public function fetchCategories()
+	public function fetchCategories($asArray = false)
 	{
 		$mapper = new Core_Model_Mapper_Categorie();
-		return $mapper->fetchAll();
+		$result = $mapper->fetchAll();
+		if (false === $asArray) {
+			return $result;
+		} else {
+			$resultArray = array();
+			foreach($result as $categorie) {
+				$resultArray[$categorie->getId()] = $categorie->getNom();
+			}
+			return $resultArray;
+		}
+		
+	}
+	
+	public function fetchAuthors($asArray = false)
+	{
+		$mapper = new Core_Model_Mapper_Author();
+		$result = $mapper->fetchAll();
+		if (false === $asArray) {
+			return $result;
+		} else {
+			$resultArray = array();
+			foreach($result as $author) {
+				$resultArray[$author->getId()] = $author->getName();
+			}
+			return $resultArray;
+		}
+	
 	}
 	
 	public function findCategorie($id)

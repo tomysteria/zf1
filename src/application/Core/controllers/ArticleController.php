@@ -17,22 +17,6 @@ class Core_ArticleController extends Zend_Controller_Action
 	public function indexAction()
 	{
 		$this->view->articles = $this->blogSvc->fetchLastArticles(2);
-		
-		$newArticle = new Core_Model_Article();
-		$categorie = new Core_Model_Categorie();
-		$categorie->setId(1);
-		
-		$author = new Core_Model_Author();
-		$author->setId(1);
-		
-		$newArticle->setTitle('test save')
-		->setContent('sdfgsdfg')
-		->setCategorie($categorie)
-		->setAuthor($author);
-		
-		$this->blogSvc->saveArticle($newArticle);
-		
-		
 	}
 	
 	public function viewAction()
@@ -85,14 +69,29 @@ class Core_ArticleController extends Zend_Controller_Action
 	
 	public function addarticleAction()
 	{
+		$this->view->message = "";
 		$form = new Core_Form_AddArticle();
 		$form->setAction('')
 			 ->setMethod(Zend_Form::METHOD_POST);
 		
 		// SI HTTP POST, réception du formulaire
 		if ($this->getRequest()->isPost()) {
+			// Si tous les validateurs attachés au formulaire
+			// renvoient TRUE
+			if ($form->isValid($this->getRequest()->getPost())) {
+				$mapper = new Core_Model_Mapper_Article();
+				$article = $mapper->arrayToObjet($form->getValues());
+				try {
+					$this->blogSvc->saveArticle($article);
+					$this->view->message = "Article ajouté";
+				} catch(Exception $e) {
+					$this->view->message = $e->getMessage();
+				}
+			}
 			
 		}
+		
 		$this->view->form = $form;
+		
 	}
 }

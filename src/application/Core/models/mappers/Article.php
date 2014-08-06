@@ -40,6 +40,35 @@ class Core_Model_Mapper_Article extends Core_Model_Mapper_MapperAbstract
 		return $article;
 	}
 	
+	public function arrayToObjet(array $data)
+	{
+		$article = new Core_Model_Article;
+		if (array_key_exists('id', $data)) {
+			$article->setId($data['id']);
+		}
+		$article->setTitle($data['title']);
+		$article->setContent($data['desc']);
+		
+		$mapperCategorie = new Core_Model_Mapper_Categorie();
+		$categorie = $mapperCategorie->find($data['categorie']);
+		
+		$mapperAuthor = new Core_Model_Mapper_Author();
+		if($data['auteur'] !== null){
+			$author = $mapperAuthor->find($data['auteur']);
+		} else {
+			$author = $mapperAuthor->getAnonymeEntity('Inconnu');
+		}
+		
+		$categorie->addArticle($article);
+		$author->addArticle($article);
+		
+		$article->setCategorie($categorie);
+		$article->setAuthor($author);
+		
+		return $article;
+	}
+	
+	
 	public function objectToRow(Core_Model_Interface $article)
 	{
 		$data = array(
