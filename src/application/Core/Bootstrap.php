@@ -66,6 +66,8 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 		
 		$acl->allow(null, null, 'access');
 		
+		$acl->allow(null, null, null, new Core_Assert_CleanIp());
+		
 //RO		//Invite 
 //RO		//Staff -> Invite
 //RO		//Editeur -> Staff

@@ -19,6 +19,14 @@ class Core_IndexController extends Zend_Controller_Action
 	
 	public function signinAction()
 	{
+		$acl = Zend_Registry::get('Zend_Acl');
+		
+		if($acl->isAllowed()){
+			echo 'IP Non BANNI';
+		} else {
+			echo 'IP BANNI';
+		}
+		
 		$this->_helper->layout()->setLayout('signin');
 		$form = new Core_Form_Auth();
 		
