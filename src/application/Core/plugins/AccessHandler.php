@@ -52,7 +52,7 @@ class Core_Plugin_AccessHandler extends Zend_Controller_Plugin_Abstract
             $userAuth = $mapper->getGuest();
         }
 
-        $roleAuth = $userAuth->getRoleid();
+        $roleAuth = $userAuth->getRoleId();
 
         // action/resource does not exist in ACL -> 404
         if (! $acl->has($module . '::' . $controller . '::' . $action)) {
