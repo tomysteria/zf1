@@ -28,6 +28,5 @@ class Core_SandboxController extends Zend_Controller_Action
 			echo 'KO archiver';
 		}
 		
-		
 	}
 }

@@ -17,6 +17,9 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 			->addRole('admin');
 		
 		$acl->addResource('article')
+			->addResource('categorie')
+			->addResource('categorie8ans', 'categorie')
+			->addResource('categorie18ans', 'categorie')
 			->addResource('author');
 		
 		$acl->allow('invite', null, 'connexion');		

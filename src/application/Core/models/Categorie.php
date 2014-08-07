@@ -1,11 +1,12 @@
 <?php 
 
-class Core_Model_Categorie implements Core_Model_Interface
+class Core_Model_Categorie implements Zend_Acl_Resource_Interface, Core_Model_Interface
 {
 	/**
 	 * @var number
 	 */
 	private $id;
+	
 	/**
 	 * @var string
 	 */
@@ -22,6 +23,21 @@ class Core_Model_Categorie implements Core_Model_Interface
 	 */
     private $parent;
 	
+    public function getResourceId() {
+    	switch ($this->nom){
+    		case 'pokemon':
+    			return 'categorie8ans';
+    			break;
+    		case 'sexe':
+    		case 'xxx':
+    			return 'categorie18ans';
+    			break;
+    		default:
+    			return 'categorie';
+    			break;
+    	}
+    }
+    
 	/**
 	 * @return the $id
 	 */
