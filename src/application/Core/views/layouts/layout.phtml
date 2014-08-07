@@ -69,7 +69,13 @@
 <!--             </ul> -->
 <!--         </nav> -->
         <nav class="navdrawer-container promote-layer">
+        <?php 
+        	$auth = Zend_Auth::getInstance();
+        	$roleAuth = $auth->getIdentity()->getRoleId();
+        ?>
         <?= $this->navigation()
+        ->setAcl()
+        ->setRole($roleAuth)
         ->menu()
         ->setUlClass('main-nav')
         ->setPartial(array('navigation/menu.phtml', 'Core')) ?>

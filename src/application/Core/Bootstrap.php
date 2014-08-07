@@ -34,11 +34,11 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 		$acl->allow('staff', 'article', array('modifier', 'soumettre', 'relire'));
 		$acl->allow('editeur', 'article', array('publier', 'archiver', 'supprimer'));
 		
+		$acl->allow('staff', null, 'google');
 		
 		/**
 		 * Access Handler
 		 */
-		
 		$acl->addResource('Core::article::addarticle');
 		$acl->addResource('Core::article::archiver');
 		$acl->addResource('Core::article::categories');

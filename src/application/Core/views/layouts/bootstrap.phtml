@@ -45,10 +45,16 @@
           <a class="navbar-brand" href="#">Bootstrap theme</a>
         </div>
         <div class="navbar-collapse collapse">
+        <?php 
+        	$auth = Zend_Auth::getInstance();
+        	$roleAuth = $auth->getIdentity()->getRoleId();
+        ?>
           <?= $this->navigation()
-        ->menu()
-        ->setUlClass('nav')
-        ->setPartial(array('navigation/menu.phtml', 'Core')) ?>
+          	->setAcl(Zend_Registry::get('Zend_Acl'))
+          	->setRole($roleAuth)
+        	->menu()
+        	->setUlClass('nav')
+        	->setPartial(array('navigation/menu.phtml', 'Core')) ?>
         </div><!--/.nav-collapse -->
       </div>
     </div>
