@@ -48,17 +48,17 @@ class Core_Plugin_AccessHandler extends Zend_Controller_Plugin_Abstract
             $userAuth = $auth->getIdentity();
         } else {
             //Initialisation avec un Role User correspondant à  GUEST (Non connecté)
-            $mapperUser = new Model_Mapper_User();
-            $userAuth = $mapperUser->createRow ( array ('role' => Model_User::GUEST ) );
+            $mapper= new Core_Model_Mapper_User();
+            $userAuth = $mapper->getGuest();
         }
 
         $roleAuth = $userAuth->getRoleid();
 
         // action/resource does not exist in ACL -> 404
         if (! $acl->has($module . '::' . $controller . '::' . $action)) {
-            throw new Zend_Controller_Dispatcher_Exception('_ERR_page_not_found');
+            throw new Zend_Controller_Dispatcher_Exception('Page non trouvé');
         } else if (! $acl->isAllowed($userAuth, $module . '::' . $controller . '::' . $action, 'access')) { // resource does exist, check ACL
-            throw new Lbj_Acl_Exception($acl, $userAuth, $module . '::' . $controller . '::' . $action, 'access');               
+            throw new Zend_Controller_Dispatcher_Exception('Page non autorisé');             
         }
     }
 }
