@@ -1,6 +1,7 @@
 <?php 
 
-class Core_Model_Article implements Core_Model_Interface
+class Core_Model_Article 
+	implements Zend_Acl_Resource_Interface, Core_Model_Interface
 {
 	/**
 	 * @var number
@@ -24,6 +25,11 @@ class Core_Model_Article implements Core_Model_Interface
 	 * @var Core_Model_Author
 	 */
 	private $author = null;
+	
+	
+	public function getResourceId () {
+		return 'article';
+	}
 	
 	/**
 	 * @return the $id

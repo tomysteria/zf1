@@ -1,6 +1,6 @@
 <?php
 
-class Core_Model_User
+class Core_Model_User implements Zend_Acl_Role_Interface, Zend_Acl_Resource_Interface
 {
     /**
      * Identifiant de l'utilisateur
@@ -20,6 +20,13 @@ class Core_Model_User
      */
     protected $password;
     
+    public function getRoleId() {
+    	return $this->login;
+    }
+    
+    public function getResourceId() {
+    	return 'user';
+    }
     
 	/**
      * @return the $id

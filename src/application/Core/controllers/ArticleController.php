@@ -94,4 +94,24 @@ class Core_ArticleController extends Zend_Controller_Action
 		$this->view->form = $form;
 		
 	}
+	
+	public function archiverAction(){
+		
+		$auth = Zend_Auth::getInstance();
+		$userAuth = $auth->getIdentity();
+		
+		$acl = Zend_Registry::get('Zend_Acl');
+		
+		$articleId = (int) $this->getRequest()->getParam('id');
+		$article = $this->blogSvc->fetchArticleById($articleId);
+		
+		if ($acl->isAllowed($userAuth, $article, 'archiver')) {
+			var_dump('OK pour larchive');
+		} else {
+			var_dump('NON');
+		}
+		
+		exit;
+	}
+	
 }
