@@ -11,6 +11,27 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 		//conservez à l'esprit que le dernier parent listé est le premier 
 		//dans lequel une règle utilisable sera recherchée.
 		
+		$acl->addRole('invite')
+			->addRole('staff', 'invite')
+			->addRole('editeur', 'staff')
+			->addRole('admin');
+		
+		$acl->addResource('article')
+			->addResource('author');
+		
+		$acl->allow('invite', null, 'connexion');		
+		
+		$acl->allow('admin');
+		
+		$authenticateRole = array('staff', 'editeur', 'admin');
+				
+		$acl->deny($authenticateRole, null, 'connexion');
+		$acl->allow($authenticateRole, null, 'deconnexion');
+		
+		$acl->allow('staff', 'article', array('modifier', 'soumettre', 'relire'));
+		$acl->allow('editeur', 'article', array('publier', 'archiver', 'supprimer'));
+		
+		
 //RO		//Invite 
 //RO		//Staff -> Invite
 //RO		//Editeur -> Staff
@@ -19,6 +40,9 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 //RE		//Article
 //RE		//Author
 		
+//PR		//Connexion	-> ?
+//PR		//Déconnexion -> ?
+
 //PR		//Voir	-> Invite
 		
 //PR		//Modifier -> Staff
@@ -29,8 +53,8 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 //PR		//Archiver -> Editeur
 //PR		//Supprimer -> Editeur
 		
+		Zend_Registry::set('Zend_Acl', $acl);
 		
-		$acl->allow('Admin', null, null);
 		
 		
 		
@@ -85,7 +109,7 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 		*/
 		
 		
-		Zend_Registry::set('Zend_Acl', $acl);
+		
 	}
 	
 	protected function _initPlugins()
