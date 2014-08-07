@@ -80,22 +80,27 @@ CREATE TABLE IF NOT EXISTS `categorie` (
   `categorie_parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`categorie_id`),
   KEY `categorie_parent_id` (`categorie_parent_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 INSERT INTO `categorie` (`categorie_id`, `categorie_name`, `categorie_parent_id`) VALUES
 (1, 'Test', NULL),
 (2, 'Test', NULL),
-(3, 'Lorem', NULL);
+(3, 'Lorem', NULL),
+(4, 'pokemon', NULL),
+(5, 'sexe', NULL),
+(6, 'xxx', NULL);
 
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_login` varchar(200) NOT NULL,
   `user_password` varchar(50) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 INSERT INTO `user` (`user_id`, `user_login`, `user_password`) VALUES
-(1, 'admin', '123456');
+(1, 'admin', '123456'),
+(2, 'staff', '123456'),
+(3, 'editeur', '123456');
 
 
 ALTER TABLE `article`
