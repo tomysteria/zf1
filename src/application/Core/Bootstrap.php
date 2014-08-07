@@ -35,6 +35,26 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 		$acl->allow('editeur', 'article', array('publier', 'archiver', 'supprimer'));
 		
 		
+		/**
+		 * Access Handler
+		 */
+		
+		$acl->addResource('Core::article::addarticle');
+		$acl->addResource('Core::article::archiver');
+		$acl->addResource('Core::article::categories');
+		$acl->addResource('Core::article::categorieview');
+		$acl->addResource('Core::article::index');
+		$acl->addResource('Core::article::view');
+		
+		$acl->addResource('Core::index::index');
+		$acl->addResource('Core::index::signin');
+		$acl->addResource('Core::index::logout');
+		$acl->addResource('Core::sandbox::index');
+		
+		$acl->addResource('Core::error::error');
+		
+		$acl->allow(null, null, 'access');
+		
 //RO		//Invite 
 //RO		//Staff -> Invite
 //RO		//Editeur -> Staff
@@ -120,5 +140,6 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 		$fc = Zend_Controller_Front::getInstance();
 		$fc->registerPlugin(new Core_Plugin_Navigation);
 		$fc->registerPlugin(new Core_Plugin_Auth);
+		$fc->registerPlugin(new Core_Plugin_AccessHandler, 80);
 	}
 }

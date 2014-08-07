@@ -53,7 +53,9 @@ class Core_Plugin_AccessHandler extends Zend_Controller_Plugin_Abstract
         }
 
         $roleAuth = $userAuth->getRoleId();
-
+		
+		//var_dump($module . '::' . $controller . '::' . $action);exit;
+        
         // action/resource does not exist in ACL -> 404
         if (! $acl->has($module . '::' . $controller . '::' . $action)) {
             throw new Zend_Controller_Dispatcher_Exception('Page non trouvé');
