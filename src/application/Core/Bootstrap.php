@@ -2,6 +2,17 @@
 
 class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 {
+	protected function _initAutoloading () 
+	{
+		$loader = new Zend_Application_Module_Autoloader(
+			array(
+				'namespace' => 'Core',
+				'basePath' => APP_PATH . '/Core'
+		));
+		
+		$loader->addResourceType('assert', 'asserts', 'Assert');
+	}
+	
 	
 	protected function _initAcl()
 	{
