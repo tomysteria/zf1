@@ -16,6 +16,15 @@ class Core_Model_Mapper_User extends Core_Model_Mapper_MapperAbstract
         return $user;
     }
     
+    public function authenticate($obj){
+    	$user = new Core_Model_User;
+    	
+    	$user->setId($obj->user_id)
+    		 ->setLogin($obj->user_login);
+    	
+    	return $user;
+    }
+    
     public function objectToRow(Core_Model_Interface $user)
     {
     	$data = array(

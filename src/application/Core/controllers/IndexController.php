@@ -37,7 +37,15 @@ class Core_IndexController extends Zend_Controller_Action
 				$auth = Zend_Auth::getInstance();
 				
 				$authResult = $auth->authenticate($adapter);
-				
+				if($authResult->isValid()) {
+					$storage = $auth->getStorage();
+					
+					$mapper = new Core_Model_Mapper_User();
+					$user = $mapper->authenticate($adapter->getResultRowObject(null, 'user_password'));
+					
+					$storage->write($user);			
+				}
+								
 				if ($authResult->getCode() == Zend_Auth_Result::SUCCESS) {
 					$this->_redirect('/');
 				}
