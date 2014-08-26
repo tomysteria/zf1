@@ -11,14 +11,6 @@ define('APP_PATH', SRC_PATH . DS .'application');
 
 require_once VENDOR_PATH . DS . 'autoload.php';
 
-/* Mise en place de la gestion d'erreurs */
-// if ('development' === APP_ENV) {
-// 	\php_error\reportErrors();
-// } else {
-// 	set_exception_handler(array('\Iplib\Error', 'handleException'));
-// 	set_error_handler(array('\Iplib\Error', 'handleError'));
-// }
-
 $application = new Zend_Application(
 	APP_ENV, 
 	APP_PATH . DS . 'Core' . DS . 'configs' . DS . 'application.ini'

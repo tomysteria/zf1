@@ -19,6 +19,8 @@ class Core_IndexController extends Zend_Controller_Action
 	
 	public function signinAction()
 	{
+		$this->_helper->layout()->setLayout('signin');
+		
 		$acl = Zend_Registry::get('Zend_Acl');
 		
 		if($acl->isAllowed()){
@@ -27,7 +29,7 @@ class Core_IndexController extends Zend_Controller_Action
 			echo 'IP BANNI';
 		}
 		
-		$this->_helper->layout()->setLayout('signin');
+		
 		$form = new Core_Form_Auth();
 		
 		if ($this->getRequest()->isPost()) {
