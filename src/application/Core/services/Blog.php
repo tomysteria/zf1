@@ -101,4 +101,33 @@ class Core_Service_Blog
 		$mapper = new Core_Model_Mapper_Article;
 		$mapper->save($article);
 	}
+	
+	public function saveComment($comment, $article, $user)
+	{
+		if (0 === (int) $article) {
+			throw new InvalidArgumentException('Unknown article');
+		}
+		
+		if (0 === (int) $user) {
+			throw new InvalidArgumentException('Unknown user');
+		}
+		
+		$comment = htmlentities(strip_tags($comment));
+		
+		$db = Zend_Controller_Front::getInstance()
+				->getParam('bootstrap')
+				->getResource('multidb')
+				->getDb('db1');
+		
+		$sql = "INSERT INTO article_comment 
+				(article_id, user_id, comment_datetime, comment_content)
+				VALUES (?,?,NOW(),?)";
+		try {
+			return (bool) $db->query($sql, array($article, $user, $comment));
+		} catch (Exception $e) {
+			throw $e;
+		}
+		
+		
+	}
 }

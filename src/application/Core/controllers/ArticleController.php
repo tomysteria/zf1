@@ -135,4 +135,22 @@ class Core_ArticleController extends Zend_Controller_Action
 		exit;
 	}
 	
+	public function addcommentAction()
+	{
+		
+		if (!$this->getRequest()->isXmlHttpRequest()) {
+			$this->getResponse()->setHttpResponseCode(403);
+			$this->_helper->json('Forbidden');
+		}	
+		
+		$comment = $this->getRequest()->getParam('comment');
+		$article = $this->getRequest()->getParam('article');
+		$user = Zend_Auth::getInstance()->getIdentity()->getId();
+		
+		$result = $this->blogSvc->saveComment($comment, $article, $user);
+		
+		$this->_helper->json($result);
+	}
+	
+	
 }

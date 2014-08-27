@@ -16,3 +16,38 @@ echo trim($string, ' >> ');
 </strong></h4>
 <h4>Auteur :<?= $this->article->getAuthor()->getName();?></h4>
 <p><?= $this->article->getContent()?></p>
+<hr />
+<button id="addComment" class="btn btn-sm btn-default">Ajouter un commentaire</button>
+<div id="commentForm" class="hidden">
+	<p>&nbsp;</p>
+	<p><textarea row="6" cols="60" id="comment" placeholder="votre commentaire"></textarea></p>
+	<p><button id="sendComment" class="btn btn-sm btn-success">Publier</button></p>
+</div>
+
+<script>
+<?php $this->inlineScript()->captureStart()?>
+$(document).ready(function(){
+	$('#addComment').on('click', function(e){
+		e.preventDefault();
+		$('#commentForm').removeClass('hidden');
+		$('#addComment').addClass('disabled');
+	});
+
+	$('#sendComment').on('click', function(e){
+		$.post(
+				'<?= $this->url(array(), 'coreArticleAddcomment')?>',
+				{ 
+				  comment: $('#comment').val(), 
+				  article: <?= $this->article->getId()?>
+				}
+			  ).done(function(data) {
+				if(data == 'true') {
+					
+				}
+			  });
+	});
+	
+});
+<?php $this->inlineScript()->captureEnd()?>
+</script>
+
