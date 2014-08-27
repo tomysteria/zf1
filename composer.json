@@ -3,15 +3,16 @@
   "version" : "0.0.1",
   "require" : {
     "zendframework/zendframework1" : "=1.12.7",
-    "joseph-lenton/php-error": "dev-master"
+    "joseph-lenton/php-error" : "dev-master",
+    "smrtr/mysql-version-control" : "=1.0.0"
   },
   "repositories" : [ {
     "type" : "composer",
     "url" : "https://packagist.org/"
-  } ], 
+  } ],
   "autoload" : {
-  	 "psr-0" : {
-  	 	"Iplib" : "./library/ip"
-  	 }
+    "psr-0" : {
+      "Iplib" : "./library/ip"
+    }
   }
 }
