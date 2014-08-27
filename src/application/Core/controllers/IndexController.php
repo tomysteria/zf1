@@ -70,6 +70,16 @@ class Core_IndexController extends Zend_Controller_Action
 		$auth = Zend_Auth::getInstance();
 		$auth->clearIdentity();
 		$this->_redirect('/');
+	}
+	
+	public function clearcacheAction()
+	{
+		$cache = Zend_Controller_Front::getInstance()
+			->getParam('bootstrap')
+			->getResource('cachemanager')
+			->getCache('data1');
 		
+		$cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+		$this->_redirect('/');
 	}
 }

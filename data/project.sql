@@ -102,7 +102,6 @@ INSERT INTO `user` (`user_id`, `user_login`, `user_password`) VALUES
 (2, 'staff', '123456'),
 (3, 'editeur', '123456');
 
-
 ALTER TABLE `article`
   ADD CONSTRAINT `article_ibfk_1` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`categorie_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `article_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `author` (`author_id`) ON DELETE SET NULL;

@@ -61,6 +61,7 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 		$acl->addResource('Core::index::signin');
 		$acl->addResource('Core::index::logout');
 		$acl->addResource('Core::sandbox::index');
+		$acl->addResource('Core::index::clearcache');
 		
 		$acl->addResource('Core::error::error');
 		

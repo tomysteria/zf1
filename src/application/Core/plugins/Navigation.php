@@ -4,8 +4,18 @@ class Core_Plugin_Navigation extends Zend_Controller_Plugin_Abstract
 {
 	public function routeShutdown(Zend_Controller_Request_Abstract $request)
 	{
-		$blogSvc = new Core_Service_Blog();
-		$categories = $blogSvc->fetchCategories();
+		$cache = Zend_Controller_Front::getInstance()
+		->getParam('bootstrap')
+		->getResource('cachemanager')
+		->getCache('data1');
+		
+		// Gestion du cache pour les catégories
+		$categories = $cache->load('categories_data');
+		if ( $categories === false) {
+			$blogSvc = new Core_Service_Blog();
+			$categories = $blogSvc->fetchCategories();
+			$cache->save($categories);
+		}
 		
 		// Cible le conteneur Zend_Navigation principal
 		$nav = Zend_Registry::get('Zend_Navigation');
