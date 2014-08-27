@@ -3,8 +3,7 @@
   "version" : "0.0.1",
   "require" : {
     "zendframework/zendframework1" : "=1.12.7",
-    "joseph-lenton/php-error" : "dev-master",
-    "smrtr/mysql-version-control" : "=1.0.0"
+    "joseph-lenton/php-error" : "dev-master"
   },
   "repositories" : [ {
     "type" : "composer",
