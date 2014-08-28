@@ -152,5 +152,19 @@ class Core_ArticleController extends Zend_Controller_Action
 		$this->_helper->json($result);
 	}
 	
+	public function readcommentsAction()
+	{
+		if (!$this->getRequest()->isXmlHttpRequest()) {
+			$this->getResponse()->setHttpResponseCode(403);
+			$this->_helper->json('Forbidden');
+		}
+		
+		$article = $this->getRequest()->getParam('article');
+		
+		$result = $this->blogSvc->readComments($article);
+		
+		$this->_helper->json($result);
+	}
+	
 	
 }

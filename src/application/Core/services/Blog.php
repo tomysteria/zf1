@@ -119,15 +119,45 @@ class Core_Service_Blog
 				->getResource('multidb')
 				->getDb('db1');
 		
-		$sql = "INSERT INTO article_comment 
+		$sql1 = "INSERT INTO article_comment 
 				(article_id, user_id, comment_datetime, comment_content)
 				VALUES (?,?,NOW(),?)";
+		
+		$sql2 = "SELECT ac.*,u.user_login  FROM article_comment ac, user u
+				WHERE ac.comment_id = ?
+				AND ac.user_id = u.user_id";
 		try {
-			return (bool) $db->query($sql, array($article, $user, $comment));
+			 $db->query($sql1, array($article, $user, $comment));
+			 $id = $db->lastInsertId();
+			 $comment = $db->fetchRow($sql2, $id);
+			 return $comment;
 		} catch (Exception $e) {
 			throw $e;
 		}
 		
 		
+	}
+	
+	public function readComments($article)
+	{
+		if (0 === (int) $article) {
+			throw new InvalidArgumentException('Unknown article');
+		}
+		
+		$db = Zend_Controller_Front::getInstance()
+		->getParam('bootstrap')
+		->getResource('multidb')
+		->getDb('db1');
+		
+		$sql = "SELECT ac.*,u.user_login  FROM article_comment ac, user u
+				WHERE ac.article_id = ?
+				AND ac.user_id = u.user_id";
+		
+		try {
+			$comments = $db->fetchAll($sql, $article);
+			return $comments;
+		} catch (Exception $e) {
+			throw $e;
+		}
 	}
 }

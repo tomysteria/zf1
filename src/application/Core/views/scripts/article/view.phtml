@@ -17,6 +17,10 @@ echo trim($string, ' >> ');
 <h4>Auteur :<?= $this->article->getAuthor()->getName();?></h4>
 <p><?= $this->article->getContent()?></p>
 <hr />
+<div id="commentsList">
+
+</div>
+<hr />
 <button id="addComment" class="btn btn-sm btn-default">Ajouter un commentaire</button>
 <div id="commentForm" class="hidden">
 	<p>&nbsp;</p>
@@ -27,6 +31,15 @@ echo trim($string, ' >> ');
 <script>
 <?php $this->inlineScript()->captureStart()?>
 $(document).ready(function(){
+
+
+	function loadcomments()
+	{
+		$.get('/Core/article/readcomments/article/'<?= $this->article->getId()?>, function(data) {
+			
+		}); 
+	}
+	
 	$('#addComment').on('click', function(e){
 		e.preventDefault();
 		$('#commentForm').removeClass('hidden');
@@ -41,9 +54,10 @@ $(document).ready(function(){
 				  article: <?= $this->article->getId()?>
 				}
 			  ).done(function(data) {
-				if(data == 'true') {
-					
-				}
+				$('#commentsList').append(
+				 '<p>Par ' + data.user_login +' - '+ data.comment_datetime + '</p>' +
+				 '<p>' + data.comment_content + '</p>'
+				);
 			  });
 	});
 	

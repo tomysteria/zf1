@@ -57,6 +57,7 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 		$acl->addResource('Core::article::index');
 		$acl->addResource('Core::article::view');
 		$acl->addResource('Core::article::addcomment');
+		$acl->addResource('Core::article::readcomments');
 		
 		$acl->addResource('Core::index::index');
 		$acl->addResource('Core::index::signin');
