@@ -123,14 +123,9 @@ class Core_Service_Blog
 				(article_id, user_id, comment_datetime, comment_content)
 				VALUES (?,?,NOW(),?)";
 		
-		$sql2 = "SELECT ac.*,u.user_login  FROM article_comment ac, user u
-				WHERE ac.comment_id = ?
-				AND ac.user_id = u.user_id";
 		try {
 			 $db->query($sql1, array($article, $user, $comment));
-			 $id = $db->lastInsertId();
-			 $comment = $db->fetchRow($sql2, $id);
-			 return $comment;
+			 return $db->lastInsertId();
 		} catch (Exception $e) {
 			throw $e;
 		}

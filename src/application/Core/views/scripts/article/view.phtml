@@ -1,3 +1,8 @@
+<?php 
+	$this->inlineScript()->appendFile('/assets/moment/min/moment-with-locales.min.js');
+	$this->inlineScript()->appendFile('/assets/holderjs/holder.js');
+?>
+
 <h1><?= $this->article->getTitle()?></h1>
 <h4>Dans la catégorie <strong>
 <?php 
@@ -27,19 +32,34 @@ echo trim($string, ' >> ');
 	<p><textarea row="6" cols="60" id="comment" placeholder="votre commentaire"></textarea></p>
 	<p><button id="sendComment" class="btn btn-sm btn-success">Publier</button></p>
 </div>
-
+<p>&nbsp;</p>
 <script>
 <?php $this->inlineScript()->captureStart()?>
+
+function loadComments()
+{
+	$.get('/Core/article/readcomments/article/<?= $this->article->getId()?>', 
+			function(data) {
+				output = '<ul class="media-list">';
+				moment.locale('fr');	
+				$.each(data, function(index, comment) {
+					time = moment(comment.comment_datetime);
+					output = output + '<li class="media">';
+					output = output + ' <a class="pull-left" href="#"><img class="media-object" src="holder.js/64x64" alt="..."></a>';
+					output = output + '<div class="media-body"> <h4 class="media-heading">Par ' + comment.user_login + ' ';
+					output = output + time.fromNow() + '</h4>';
+					output = output + comment.comment_content + '<br />';
+					output = output + '</div></li>';
+				});
+				output = output + '</ul>';
+				$('#commentsList').html(output);
+				Holder.run();
+			}
+	); 
+}
+
 $(document).ready(function(){
 
-
-	function loadcomments()
-	{
-		$.get('/Core/article/readcomments/article/'<?= $this->article->getId()?>, function(data) {
-			
-		}); 
-	}
-	
 	$('#addComment').on('click', function(e){
 		e.preventDefault();
 		$('#commentForm').removeClass('hidden');
@@ -54,12 +74,15 @@ $(document).ready(function(){
 				  article: <?= $this->article->getId()?>
 				}
 			  ).done(function(data) {
-				$('#commentsList').append(
-				 '<p>Par ' + data.user_login +' - '+ data.comment_datetime + '</p>' +
-				 '<p>' + data.comment_content + '</p>'
-				);
+				loadComments();
+				$('#commentForm').addClass('hidden');
+				$('#addComment').removeClass('disabled');
+				$('#comment').val('');
 			  });
 	});
+
+	// PAGE INIT
+	loadComments();
 	
 });
 <?php $this->inlineScript()->captureEnd()?>
