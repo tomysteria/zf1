@@ -1,0 +1,22 @@
+<?php
+$this->inlineScript()->appendFile('/assets/jquery.soap/jquery.soap.js');
+?>
+
+
+
+
+<div>Type de météo : <br />
+<?php foreach($this->result as $result) :?>
+<p>
+<?= $result->Description ?> &nbsp; <img src="<?= $result->PictureURL?>" />
+<?php endforeach;?>
+</div>
+
+<script>
+<?php $this->inlineScript()->captureStart()?>
+$(document).ready(function(){
+
+	
+});
+<?php $this->inlineScript()->captureEnd()?>
+</script>
