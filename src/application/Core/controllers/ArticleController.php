@@ -135,35 +135,31 @@ class Core_ArticleController extends Zend_Controller_Action
 		exit;
 	}
 	
-	public function addcommentAction()
-	{
-		
-		if (!$this->getRequest()->isXmlHttpRequest()) {
-			$this->getResponse()->setHttpResponseCode(403);
-			$this->_helper->json('Forbidden');
-		}	
-		
-		$comment = $this->getRequest()->getParam('comment');
-		$article = $this->getRequest()->getParam('article');
-		$user = Zend_Auth::getInstance()->getIdentity()->getId();
-		
-		$result = $this->blogSvc->saveComment($comment, $article, $user);
-		
-		$this->_helper->json($result);
-	}
-	
-	public function readcommentsAction()
+	public function jsonrpcAction()
 	{
 		if (!$this->getRequest()->isXmlHttpRequest()) {
 			$this->getResponse()->setHttpResponseCode(403);
 			$this->_helper->json('Forbidden');
 		}
 		
-		$article = $this->getRequest()->getParam('article');
-		
-		$result = $this->blogSvc->readComments($article);
-		
-		$this->_helper->json($result);
+		// Désactive la vue et le layout
+		$this->_helper->viewRenderer->setNoRender(true);
+		$this->_helper->layout->disableLayout();
+	
+		$server = new Zend_Json_Server();
+		$server->setClass('Core_Service_Blog');
+	
+		// Autodiscover service map
+		if ($this->getRequest()->isGet()) {
+			$server->setTarget('/json-rpc/blog')
+			->setEnvelope(Zend_Json_Server_Smd::ENV_JSONRPC_2);
+			$smd = $server->getServiceMap();
+			$this->getResponse()->setHeader('Content-type', 'application/json');
+			echo $smd;
+			return;
+		}
+		$server->handle();
+	
 	}
 	
 	

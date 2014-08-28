@@ -23,4 +23,6 @@ class Core_Service_Demo
 	{
 		return $a+$b;
 	}
+	
+	
 }

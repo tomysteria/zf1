@@ -126,23 +126,14 @@ class Core_Service_Blog
 	/**
 	 * @param string $comment
 	 * @param number $article
-	 * @param number $user
 	 * @throws InvalidArgumentException
 	 * @throws Exception
 	 * @return number
 	 */
-	public function saveComment($comment, $article, $user)
+	public function saveComment($comment, $article)
 	{
-		if (0 === (int) $article) {
-			throw new InvalidArgumentException('Unknown article');
-		}
-		
-		if (0 === (int) $user) {
-			throw new InvalidArgumentException('Unknown user');
-		}
-		
 		$comment = htmlentities(strip_tags($comment));
-		
+		$user = Zend_Auth::getInstance()->getIdentity()->getId();
 		$db = Zend_Controller_Front::getInstance()
 				->getParam('bootstrap')
 				->getResource('multidb')

@@ -1,0 +1,36 @@
+<?php 
+	$this->inlineScript()->appendFile('/assets/jquery-jsonrpcclient/jquery.jsonrpcclient.js');
+?>
+
+<div id="call-result"></div>
+<div id="call-result2"></div>
+
+<script>
+<?php $this->inlineScript()->captureStart()?>
+$(document).ready(function(){
+
+	var rpc = new $.JsonRpcClient({ ajaxUrl: '/json-rpc'});
+	rpc.call(
+		'test', 
+		['toto2'], 
+	    function(result){
+		    $('#call-result').html(result);
+		},
+	    function(error){
+			console.log(error);
+	    }
+	);
+
+	rpc.call(
+			'calc', 
+			[1,2], 
+		    function(result){
+			    $('#call-result2').html(result);
+			},
+		    function(error){
+				console.log(error);
+		    }
+		);
+});
+<?php $this->inlineScript()->captureEnd()?>
+</script>

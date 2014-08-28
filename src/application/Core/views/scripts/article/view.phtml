@@ -1,6 +1,7 @@
 <?php 
 	$this->inlineScript()->appendFile('/assets/moment/min/moment-with-locales.min.js');
 	$this->inlineScript()->appendFile('/assets/holderjs/holder.js');
+	$this->inlineScript()->appendFile('/assets/jquery-jsonrpcclient/jquery.jsonrpcclient.js');
 ?>
 
 <h1><?= $this->article->getTitle()?></h1>
@@ -36,13 +37,17 @@ echo trim($string, ' >> ');
 <script>
 <?php $this->inlineScript()->captureStart()?>
 
+rpc = new $.JsonRpcClient({ ajaxUrl: '/json-rpc/blog'});
+
 function loadComments()
 {
-	$.get('/Core/article/readcomments/article/<?= $this->article->getId()?>', 
-			function(data) {
+	rpc.call(
+			'readComments', 
+			[<?= $this->article->getId() ?>], 
+		    function(result){
 				output = '<ul class="media-list">';
 				moment.locale('fr');	
-				$.each(data, function(index, comment) {
+				$.each(result, function(index, comment) {
 					time = moment(comment.comment_datetime);
 					output = output + '<li class="media">';
 					output = output + ' <a class="pull-left" href="#"><img class="media-object" src="holder.js/64x64" alt="..."></a>';
@@ -54,8 +59,28 @@ function loadComments()
 				output = output + '</ul>';
 				$('#commentsList').html(output);
 				Holder.run();
+			},
+		    function(error){
+				console.log(error);
+		    }
+		);
+	
+}
+
+function addComment()
+{
+	comment = $('#comment').val(); 
+	article = <?= $this->article->getId()?>;
+	rpc.call(
+			'saveComment', 
+			[comment, article], 
+		    function(result){
+				loadComments();
+				$('#commentForm').addClass('hidden');
+				$('#addComment').removeClass('disabled');
+				$('#comment').val('');
 			}
-	); 
+	);
 }
 
 $(document).ready(function(){
@@ -67,18 +92,9 @@ $(document).ready(function(){
 	});
 
 	$('#sendComment').on('click', function(e){
-		$.post(
-				'<?= $this->url(array(), 'coreArticleAddcomment')?>',
-				{ 
-				  comment: $('#comment').val(), 
-				  article: <?= $this->article->getId()?>
-				}
-			  ).done(function(data) {
-				loadComments();
-				$('#commentForm').addClass('hidden');
-				$('#addComment').removeClass('disabled');
-				$('#comment').val('');
-			  });
+		e.preventDefault();
+		addComment();
+				
 	});
 
 	// PAGE INIT
