@@ -68,6 +68,9 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 		$acl->addResource('Core::soap::index');
 		$acl->addResource('Core::soap::client');
 		
+		$acl->addResource('Core::json::server');
+		$acl->addResource('Core::json::client');
+		
 		$acl->addResource('Core::error::error');
 		
 		$acl->allow(null, null, 'access');

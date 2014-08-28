@@ -1,4 +1,5 @@
 <?php
+$this->inlineScript()->appendFile('/assets/jquery-xml2json/src/xml2json.js');
 $this->inlineScript()->appendFile('/assets/jquery.soap/jquery.soap.js');
 ?>
 
@@ -15,7 +16,21 @@ $this->inlineScript()->appendFile('/assets/jquery.soap/jquery.soap.js');
 <script>
 <?php $this->inlineScript()->captureStart()?>
 $(document).ready(function(){
+	$.soap({
+	    url: 'http://www.project.dev/ws#',
+	    method: 'test',
 
+	    data: {
+	        testIn: 'Remy Blom'
+	    },
+
+	    success: function (soapResponse) {
+		    console.log(soapResponse.toJSON());
+	    },
+	    error: function (SOAPResponse) {
+	        // show error
+	    }
+	});
 	
 });
 <?php $this->inlineScript()->captureEnd()?>

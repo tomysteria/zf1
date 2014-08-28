@@ -38,9 +38,9 @@ class Core_SoapController extends Zend_Controller_Action
 // 		$demoSvc = new Zend_Soap_Client('http://www.project.dev/ws?wsdl');
 // 		$demoSvc = new Core_Service_Demo();
 		$array = $demoSvc->GetWeatherInformation()
-						 ->GetWeatherInformationResult
-						 ->WeatherDescription;
-		$this->view->result = $array;
+						->GetWeatherInformationResult
+						->WeatherDescription;
+		$this->view->result = $array[0];
 	}
 	
 }
