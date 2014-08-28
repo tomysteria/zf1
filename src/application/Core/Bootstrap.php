@@ -65,6 +65,9 @@ class Core_Bootstrap extends Zend_Application_Module_Bootstrap
 		$acl->addResource('Core::sandbox::index');
 		$acl->addResource('Core::index::clearcache');
 		
+		$acl->addResource('Core::soap::index');
+		$acl->addResource('Core::soap::client');
+		
 		$acl->addResource('Core::error::error');
 		
 		$acl->allow(null, null, 'access');

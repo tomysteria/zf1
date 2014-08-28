@@ -3,6 +3,10 @@
 class Core_Service_Blog
 {
 	
+	/**
+	 * @param string $asArray
+	 * @return multitype:Core_Model_Categorie |multitype:Ambigous <the, string> 
+	 */
 	public function fetchCategories($asArray = false)
 	{
 		$mapper = new Core_Model_Mapper_Categorie();
@@ -19,6 +23,10 @@ class Core_Service_Blog
 		
 	}
 	
+	/**
+	 * @param string $asArray
+	 * @return multitype:Core_Model_Author |multitype:Ambigous <the, string> 
+	 */
 	public function fetchAuthors($asArray = false)
 	{
 		$mapper = new Core_Model_Mapper_Author();
@@ -35,6 +43,11 @@ class Core_Service_Blog
 	
 	}
 	
+	/**
+	 * @param number $id
+	 * @throws InvalidArgumentException
+	 * @return Core_Model_Categorie
+	 */
 	public function findCategorie($id)
 	{
 		if (0 === (int) $id) {
@@ -81,6 +94,11 @@ class Core_Service_Blog
 		
 	}
 	
+	/**
+	 * @param number $id
+	 * @throws InvalidArgumentException
+	 * @return multitype:Core_Model_Article 
+	 */
 	public function fetchArticlesByCategory($id)
 	{
 		if (0 === (int) $id) {
@@ -96,12 +114,23 @@ class Core_Service_Blog
 		
 	}
 	
+	/**
+	 * @param Core_Model_Article $article
+	 */
 	public function saveArticle(Core_Model_Article $article)
 	{
 		$mapper = new Core_Model_Mapper_Article;
 		$mapper->save($article);
 	}
 	
+	/**
+	 * @param string $comment
+	 * @param number $article
+	 * @param number $user
+	 * @throws InvalidArgumentException
+	 * @throws Exception
+	 * @return number
+	 */
 	public function saveComment($comment, $article, $user)
 	{
 		if (0 === (int) $article) {
@@ -133,6 +162,12 @@ class Core_Service_Blog
 		
 	}
 	
+	/**
+	 * @param number $article
+	 * @throws InvalidArgumentException
+	 * @throws Exception
+	 * @return multitype:Array | boolean
+	 */
 	public function readComments($article)
 	{
 		if (0 === (int) $article) {
